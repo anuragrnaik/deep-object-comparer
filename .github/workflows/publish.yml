@@ -37,9 +37,11 @@ jobs:
     - name: Copy files and docs
       run: |
         cp -r package.json *.md lib
+        mv lib deep-object-comparer
+        ls
 
     - name: Publish to npm
-      run: yarn publish /lib
+      run: yarn publish /deep-object-comparer
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
