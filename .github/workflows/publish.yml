@@ -1,0 +1,47 @@
+name: Publish to npm
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+    # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
+    # Publish to npm
+    -name: Install Packages
+      - run: yarn
+    -name: Execute Build
+      run: yarn build
+    - name: Copy files and docs
+      run: |
+        cp -r package.json *md examples lib
+    -name: Publish to npm
+      run: yarn publish /lib
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+    # Setup .npmrc file to publish to GitHub Packages
+    - name: Publish to GitHub Packages
+      - uses: actions/setup-node@v2
+        with:
+          registry-url: 'https://npm.pkg.github.com'
+      # Publish to GitHub Packages
+      - run: yarn publish /lib
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
