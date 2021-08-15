@@ -27,17 +27,17 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
 
     # Publish to npm
-    -name: Install dependencies
+    - name: Install dependencies
       run: yarn
 
-    -name: Execute Build
+    - name: Execute Build
       run: yarn build
 
     - name: Copy files and docs
       run: |
         cp -r package.json *md examples lib
 
-    -name: Publish to npm
+    - name: Publish to npm
       run: yarn publish /lib
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
@@ -49,5 +49,5 @@ jobs:
         registry-url: 'https://npm.pkg.github.com'
 
     - run: yarn publish /lib
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
