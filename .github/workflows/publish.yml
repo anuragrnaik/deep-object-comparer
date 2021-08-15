@@ -36,7 +36,7 @@ jobs:
 
     - name: Copy files and docs
       run: |
-        cp -r package.json *md examples lib
+        cp -r package.json *.md examples lib
 
     - name: Publish to npm
       run: yarn publish /lib
