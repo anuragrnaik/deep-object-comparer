@@ -9,7 +9,7 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL"
+name: Code Analysis CI
 
 on:
   push:
@@ -19,6 +19,7 @@ on:
     branches: [ main, develop ]
   schedule:
     - cron: '30 17 * * *'
+  workflow_dispatch:
 
 jobs:
   analyze:
@@ -69,3 +70,29 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
+
+  test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+
+    - name: Install dependencies
+      run: yarn
+
+    - name: Run lint check and unit-tests
+      run: yarn test
+
