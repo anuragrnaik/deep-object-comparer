@@ -18,29 +18,36 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+
     # Setup .npmrc file to publish to npm
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
         registry-url: 'https://registry.npmjs.org'
+
     # Publish to npm
-    -name: Install Packages
+    -name: Install dependencies
       run: yarn
+
     -name: Execute Build
       run: yarn build
+
     - name: Copy files and docs
       run: |
         cp -r package.json *md examples lib
+
     -name: Publish to npm
       run: yarn publish /lib
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
     # Setup .npmrc file to publish to GitHub Packages
     - name: Publish to GitHub Packages
       uses: actions/setup-node@v2
       with:
         registry-url: 'https://npm.pkg.github.com'
+
     - run: yarn publish /lib
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
