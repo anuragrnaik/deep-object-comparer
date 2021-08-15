@@ -1,0 +1,35 @@
+{
+  "name": "deep-object-comparer",
+  "version": "1.0.0",
+  "description": "A simple javascript function that deep compares two javascript objects are returns comparison results of all the properties having primitive values",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src -d lib",
+    "lint": "eslint --ext .js src test/unit/specs",
+    "test": "npm run lint && npm run unit",
+    "unit": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anuragrnaik/deep-object-comparer.git"
+  },
+  "author": "Anurag R. Naik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anuragrnaik/deep-object-comparer/issues"
+  },
+  "homepage": "https://github.com/anuragrnaik/deep-object-comparer#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "jest": "^27.0.6"
+  }
+}
